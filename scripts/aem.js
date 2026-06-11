@@ -514,6 +514,8 @@ function buildBlock(blockName, content) {
  * @param {Element} block The block element
  */
 async function loadBlock(block) {
+  const blockName = block.dataset.blockName;
+  console.log(`[aem- dev] loading block: ${blockName}`);
   const status = block.dataset.blockStatus;
   if (status !== 'loading' && status !== 'loaded') {
     block.dataset.blockStatus = 'loading';
