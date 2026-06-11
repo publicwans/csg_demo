@@ -181,6 +181,7 @@ function loadDelayed() {
 }
 
 async function loadPage() {
+  console.log("dev branch");
   await loadEager(document);
   await loadLazy(document);
   loadDelayed();
