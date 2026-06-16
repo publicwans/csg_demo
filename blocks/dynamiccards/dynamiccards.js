@@ -1,10 +1,4 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
-//import { isAuthenticated, login } from '../../scripts/auth.js';
-//import { apiGet } from '../../scripts/api.js';
-
-// Fallback scopes used when the authored config row omits them.
-// Replace with your actual API scope from Azure App Registration.
-//const DEFAULT_SCOPES = ['api://YOUR_API_CLIENT_ID/access_as_user'];
 
 function buildCardFromAuthored(row) {
   const li = document.createElement('li');
@@ -54,56 +48,9 @@ function buildCardFromData(card) {
   return li;
 }
 
-/**
- * Checks whether the first row is an API config row (first cell is a URL).
- * If so, removes that row from the block and returns the parsed config.
- * Returns null if no API config row is found.
- */
-/*function extractApiConfig(block) {
-  const firstRow = block.firstElementChild;
-  if (!firstRow) return null;
-
-  const text = firstRow.firstElementChild?.textContent.trim() ?? '';
-  if (!/^https?:\/\/|^\/api\//.test(text)) return null;
-
-  const scopeCell = firstRow.children[1]?.textContent.trim();
-  const scopes = scopeCell
-    ? scopeCell.split(',').map((s) => s.trim()).filter(Boolean)
-    : DEFAULT_SCOPES;
-
-  firstRow.remove();
-  return { url: text, scopes };
-}*/
-
 export default async function decorate(block) {
-  //const apiConfig = extractApiConfig(block);
   const ul = document.createElement('ul');
-
-  /*if (apiConfig) {
-    if (!await isAuthenticated()) {
-      await login(apiConfig.scopes);
-    }
-
-    let cards = null;
-    try {
-      const response = await apiGet(apiConfig.url, apiConfig.scopes);
-      cards = await response.json();
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Dynamiccards API fetch failed, falling back to authored content', error);
-    }
-
-    if (Array.isArray(cards) && cards.length > 0) {
-      cards.forEach((card) => ul.append(buildCardFromData(card)));
-    } else {
-      // API returned nothing or failed — render whatever the author put in the block
-      [...block.children].forEach((row) => ul.append(buildCardFromAuthored(row)));
-    }
-  } else {*/
-    // No API config row — behave exactly like the standard cards block
-    [...block.children].forEach((row) => ul.append(buildCardFromAuthored(row)));
-  //}
-
+  [...block.children].forEach((row) => ul.append(buildCardFromAuthored(row)));
   ul.querySelectorAll('picture > img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])));
   block.replaceChildren(ul);
 }
