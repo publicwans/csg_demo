@@ -1,10 +1,10 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
-import { isAuthenticated, login } from '../../scripts/auth.js';
-import { apiGet } from '../../scripts/api.js';
+//import { isAuthenticated, login } from '../../scripts/auth.js';
+//import { apiGet } from '../../scripts/api.js';
 
 // Fallback scopes used when the authored config row omits them.
 // Replace with your actual API scope from Azure App Registration.
-const DEFAULT_SCOPES = ['api://YOUR_API_CLIENT_ID/access_as_user'];
+//const DEFAULT_SCOPES = ['api://YOUR_API_CLIENT_ID/access_as_user'];
 
 /**
  * Authored content structure (same contract as the cards block):
@@ -86,7 +86,7 @@ function buildCardFromData(card) {
  * If so, removes that row from the block and returns the parsed config.
  * Returns null if no API config row is found.
  */
-function extractApiConfig(block) {
+/*function extractApiConfig(block) {
   const firstRow = block.firstElementChild;
   if (!firstRow) return null;
 
@@ -100,13 +100,13 @@ function extractApiConfig(block) {
 
   firstRow.remove();
   return { url: text, scopes };
-}
+}*/
 
 export default async function decorate(block) {
-  const apiConfig = extractApiConfig(block);
+  //const apiConfig = extractApiConfig(block);
   const ul = document.createElement('ul');
 
-  if (apiConfig) {
+  /*if (apiConfig) {
     if (!await isAuthenticated()) {
       await login(apiConfig.scopes);
     }
@@ -126,10 +126,10 @@ export default async function decorate(block) {
       // API returned nothing or failed — render whatever the author put in the block
       [...block.children].forEach((row) => ul.append(buildCardFromAuthored(row)));
     }
-  } else {
+  } else {*/
     // No API config row — behave exactly like the standard cards block
     [...block.children].forEach((row) => ul.append(buildCardFromAuthored(row)));
-  }
+  //}
 
   ul.querySelectorAll('picture > img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])));
   block.replaceChildren(ul);
