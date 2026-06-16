@@ -6,33 +6,6 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 // Replace with your actual API scope from Azure App Registration.
 //const DEFAULT_SCOPES = ['api://YOUR_API_CLIENT_ID/access_as_user'];
 
-/**
- * Authored content structure (same contract as the cards block):
- *
- *   | image   |
- *   | body text, links, etc. |
- *
- * API config structure (optional first row):
- *
- *   | https://your-api.example.com/cards | api://CLIENT_ID/scope,offline_access |
- *    ^--- API endpoint URL                 ^--- comma-separated scopes (optional)
- *
- * If the first row contains a URL in the first cell, it is treated as API config
- * and removed before rendering. All remaining rows become authored fallback content.
- *
- * Expected API response shape (array of card objects):
- * [
- *   {
- *     "image": "https://...",      // optional
- *     "imageAlt": "Photo of ...",  // optional
- *     "title": "Card title",       // optional
- *     "description": "Body text",  // optional
- *     "link": "https://...",       // optional
- *     "linkText": "Learn more"     // optional, defaults to "Learn more"
- *   }
- * ]
- */
-
 function buildCardFromAuthored(row) {
   const li = document.createElement('li');
   while (row.firstElementChild) li.append(row.firstElementChild);
